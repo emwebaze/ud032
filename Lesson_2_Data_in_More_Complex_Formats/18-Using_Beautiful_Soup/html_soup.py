@@ -10,13 +10,20 @@ import json
 
 html_page = "page_source.html"
 
-
 def extract_data(page):
     data = {"eventvalidation": "",
             "viewstate": ""}
     with open(page, "r") as html:
-        # do something here to find the necessary values
-        pass
+        soup  = BeautifulSoup(html)
+        data['eventvalidation'] = soup.find(id='__EVENTVALIDATION').get('value')
+        data['viewstate'] = soup.find(id='__VIEWSTATE').get('value')
+#         a = soup.find(id="__EVENTVALIDATION")
+#         b = soup.find(id='__VIEWSTATE')
+#         print a.get('value')
+#         print b.get('value')
+# #             if ipts['id'] == '__EVENTVALIDATION':
+# #                 data['eventvalidation'] = ipts['__EVENTVALIDATION']
+#             print ipts.get('value')
 
     return data
 

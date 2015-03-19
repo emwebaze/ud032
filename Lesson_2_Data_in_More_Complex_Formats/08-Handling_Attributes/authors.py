@@ -25,7 +25,10 @@ def get_authors(root):
                 "insr": []
         }
 
-        # YOUR CODE HERE
+        data['fnm'] = author.find('./fnm').text
+        data['snm'] = author.find('./snm').text
+        data['email'] = author.find('./email').text
+        data['insr'] = [inst.attrib['iid'] for inst in author.findall('./insr')]
 
         authors.append(data)
 

@@ -23,8 +23,12 @@ def get_authors(root):
                 "email": None
         }
 
-        # YOUR CODE HERE
-
+        fnmDetails = author.find('fnm')
+        snmDetails = author.find('snm')
+        emailDetails = author.find('email')
+        data['fnm'] = fnmDetails.text
+        data['snm'] = snmDetails.text
+        data['email'] = emailDetails.text
         authors.append(data)
 
     return authors
@@ -41,3 +45,8 @@ def test():
 
 
 test()
+
+# Udacity sol
+#         data["fnm"] = author.find('./fnm').text
+#         data["snm"] = author.find('./snm').text
+#         data["email"] = author.find('./email').text
