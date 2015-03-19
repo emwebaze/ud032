@@ -15,9 +15,20 @@ DATAFILE = "beatles-diskography.csv"
 
 def parse_file(datafile):
     data = []
+    numOflines = 0
     with open(datafile, "rb") as f:
         for line in f:
-            print line
+            if numOflines == 0:
+                keys = [key.strip() for key in line.split(',')]
+                numOflines += 1
+                continue
+            
+            values = [val.strip() for val in line.split(',')]
+            data.append(dict(zip(keys,values)))
+            
+            numOflines += 1
+            if numOflines == 11:
+                break
 
     return data
 
@@ -29,6 +40,7 @@ def test():
     firstline = {'Title': 'Please Please Me', 'UK Chart Position': '1', 'Label': 'Parlophone(UK)', 'Released': '22 March 1963', 'US Chart Position': '-', 'RIAA Certification': 'Platinum', 'BPI Certification': 'Gold'}
     tenthline = {'Title': '', 'UK Chart Position': '1', 'Label': 'Parlophone(UK)', 'Released': '10 July 1964', 'US Chart Position': '-', 'RIAA Certification': '', 'BPI Certification': 'Gold'}
 
+#     print d[0]
     assert d[0] == firstline
     assert d[9] == tenthline
 

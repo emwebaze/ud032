@@ -21,6 +21,7 @@ The rest of functions are provided for your convenience, if you want to access t
 import json
 import codecs
 import requests
+from Finder.Finder_items import item
 
 URL_MAIN = "http://api.nytimes.com/svc/"
 URL_POPULAR = URL_MAIN + "mostpopular/v2/"
@@ -36,21 +37,27 @@ def get_from_file(kind, period):
 
 def article_overview(kind, period):
     data = get_from_file(kind, period)
-    titles = []
+    titles = [{s["section"]:s["title"]} for s in data]
     urls =[]
-    # YOUR CODE HERE
+    allMedia = [m["media"] for m in data]
+    for item in allMedia:
+        for itemMedia in item:
+            for entry in itemMedia["media-metadata"]:
+                if entry["format"] == "Standard Thumbnail":
+                    urls.append(entry["url"])
+    
 
     return (titles, urls)
 
 
 def query_site(url, target, offset):
     # This will set up the query with the API key and offset
-    # Web services often use offset paramter to return data in small chunks
+    # Web services often use offset parameter to return data in small chunks
     # NYTimes returns 20 articles per request, if you want the next 20
     # You have to provide the offset parameter
     if API_KEY["popular"] == "" or API_KEY["article"] == "":
         print "You need to register for NYTimes Developer account to run this program."
-        print "See Intructor notes for information"
+        print "See Instructor notes for information"
         return False
     params = {"api-key": API_KEY[target], "offset": offset}
     r = requests.get(url, params = params)

@@ -24,7 +24,13 @@ def parse_file(datafile):
     name = ""
     data = []
     with open(datafile,'rb') as f:
-        pass
+        nrelData = csv.reader(f, delimiter=',')
+        name = nrelData.next()[1]
+        header = nrelData.next()
+        rowNo = 0
+        for row in nrelData:
+            data.append(row)
+            rowNo += 1
     # Do not change the line below
     return (name, data)
 
